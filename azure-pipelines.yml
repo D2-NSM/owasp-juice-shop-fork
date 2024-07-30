@@ -20,14 +20,12 @@ steps:
     cd frontend
     npm install --legacy-peer-deps
     npm install @types/lodash@latest --legacy-peer-deps
-    ng build
-  displayName: 'npm install dependencies and build OWASP Juice Shop'
-
+    
 - task: rapid7-insightappsec@1
   inputs:
     apiConnection: 'R7 AppSec'
     application: '09065ffd-a826-4cd5-94d6-7ec72b5e5c21'
-    scanConfig: '5e82144f-7c60-4a91-b043-4bc02de3360'
+    scanConfig: '5e82144f-7c60-4a91-b043-4bc02de33607'
     generateFindingsReport: true
     hasTimeout: true
     timeout: '30'
