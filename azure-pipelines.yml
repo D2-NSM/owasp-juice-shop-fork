@@ -1,22 +1,32 @@
-# Node.js with Angular
-# Build a Node.js project that uses Angular.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
 trigger:
 - master
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
+# Node.js with Angular
 steps:
 - task: NodeTool@0
   inputs:
     versionSpec: '18.x'
   displayName: 'Install Node.js'
 
+# Build a Node.js project that uses Angular.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 - script: |
     npm install -g @angular/cli
     npm install
     ng build --prod
   displayName: 'npm install dependencies and build OWASP Juice Shop'
+
+- task: rapid7-insightappsec@1
+  inputs:
+    apiConnection: 'R7 AppSec'
+    application: '09065ffd-a826-4cd5-94d6-7ec72b5e5c21'
+    scanConfig: '5e82144f-7c60-4a91-b043-4bc02de3360'
+    generateFindingsReport: true
+    hasTimeout: true
+    timeout: '30'
+    publishPipelineArtifacts: true
+    artifactPerReport: true
