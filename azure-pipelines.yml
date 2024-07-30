@@ -17,6 +17,7 @@ steps:
 - script: |
     npm install -g typescript
     npm install -g @angular/cli
+    cd frontend
     npm install
     npm install @types/lodash@latest
     ng build --prod
