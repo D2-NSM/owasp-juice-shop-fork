@@ -25,9 +25,9 @@ steps:
   inputs:
     apiConnection: 'R7 AppSec'
     application: '09065ffd-a826-4cd5-94d6-7ec72b5e5c21'
-    scanConfig: '5e82144f-7c60-4a91-b043-4bc02de33607'
+    scanConfig: 'e626387e-3a0f-4a80-bae8-616b5703aeae'
     generateFindingsReport: true
     hasTimeout: true
-    timeout: '30'
+    timeout: '45'
     publishPipelineArtifacts: true
     artifactPerReport: true
