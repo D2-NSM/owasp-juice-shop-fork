@@ -12,3 +12,4 @@ steps:
     secret: $(WIZ_CLIENT_SECRET)
     image: 'd2dockerd2/juice-shop-wiz:latest'
     policyHitsOnly: true
+    debug: true
