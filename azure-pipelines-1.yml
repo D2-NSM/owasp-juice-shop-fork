@@ -5,7 +5,15 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-  - script: |
-      echo "Scanning Docker image with Wiz CLI..."
-      wiz image scan --client-id $(WIZ_CLIENT_ID) --client-secret $(WIZ_CLIENT_SECRET) --image d2dockerd2/juice-shop-wiz:latest --policy vuln-one-critical --policy vuln-two-high
-    displayName: 'Run Wiz CLI Image Scan'
+
+- script: |
+    echo "Installing Wiz CLI..."
+    curl -LO https://downloads.wiz.io/wiz-cli/latest/linux/amd64/wiz-cli
+    chmod +x wiz-cli
+    sudo mv wiz-cli /usr/local/bin/wiz
+  displayName: 'Install Wiz CLI'
+
+- script: |
+    echo "Scanning Docker image with Wiz CLI..."
+    iz image scan --client-id $(WIZ_CLIENT_ID) --client-secret $(WIZ_CLIENT_SECRET) --image d2dockerd2/juice-shop-wiz:latest --policy vuln-one-critical --policy vuln-two-high
+  displayName: 'Run Wiz CLI Image Scan'
