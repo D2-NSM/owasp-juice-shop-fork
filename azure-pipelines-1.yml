@@ -15,5 +15,5 @@ steps:
 
 - script: |
     echo "Scanning Docker image with Wiz CLI..."
-    iz image scan --client-id $(WIZ_CLIENT_ID) --client-secret $(WIZ_CLIENT_SECRET) --image d2dockerd2/juice-shop-wiz:latest --policy vuln-one-critical --policy vuln-two-high
+    wiz image scan --client-id $(WIZ_CLIENT_ID) --client-secret $(WIZ_CLIENT_SECRET) --image d2dockerd2/juice-shop-wiz:latest --policy vuln-one-critical --policy vuln-two-high
   displayName: 'Run Wiz CLI Image Scan'
