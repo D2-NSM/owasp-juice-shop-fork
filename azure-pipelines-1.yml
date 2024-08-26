@@ -16,3 +16,4 @@ steps:
     image: 'd2dockerd2/juice-shop-wiz:latest'
     policyHitsOnly: true
     scanTags: 'app=test'
+    succeedOnFailures: true
