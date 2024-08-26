@@ -16,6 +16,14 @@ steps:
   - script: docker pull d2dockerd2/juice-shop-wiz:latest
     displayName: 'Pull Docker Image'
 
+  - task: wiz@0
+    displayName: Wiz Image Tag
+    inputs:
+     command: 'tag'
+     clientid: $(WIZ_CLIENT_ID)
+     secret: $(WIZ_CLIENT_SECRET)
+     image: 'd2dockerd2/juice-shop-wiz:latest'
+    
   - task: wiz@0  
     displayName: Wiz CLI Scan Docker Image
     inputs:  
