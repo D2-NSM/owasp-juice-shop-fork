@@ -6,13 +6,13 @@ pool:
 
 steps:
 
-- script: docker pull 2dockerd2/juice-shop-wiz:latest
+- script: docker pull d2dockerd2/juice-shop-wiz:latest
   displayName: Pull Docker Image
 - task: wiz@0
   inputs:
     command: 'image'
     clientid: $(WIZ_CLIENT_ID)
     secret: $(WIZ_CLIENT_SECRET) 
-    image: '2dockerd2/juice-shop-wiz:latest'
+    image: 'd2dockerd2/juice-shop-wiz:latest'
     policyHitsOnly: true
     scanTags: 'app=test'
