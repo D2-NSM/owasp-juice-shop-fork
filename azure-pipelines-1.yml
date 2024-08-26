@@ -12,8 +12,5 @@ steps:
     secret: $(WIZ_CLIENT_SECRET)
     succeedOnFailures: false
     policyHitsOnly: true
-    image: 'd2dockerd2/juice-shop-wiz:latest'
+    image: 'd2dockerd2/juice-shop-wiz'
     scanPolicies: 'vuln-one-critical, vuln-two-high'
-    scanSecrets: false
-    driver: 'mountWithLayers'
-    sudo: true
