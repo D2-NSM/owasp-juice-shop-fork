@@ -22,7 +22,7 @@ steps:
       tags: |
         testPush
       
-  - script: docker pull d2dockerd2/juice-shop-wiz:latest
+  - script: docker pull d2dockerd2/juice-shop-wiz:testPush
     displayName: Pull Docker Image
   - task: wiz@0
     displayName: Wiz CLI Scan
@@ -30,7 +30,7 @@ steps:
       command: 'image'
       clientid: $(WIZ_CLIENT_ID)
       secret: $(WIZ_CLIENT_SECRET) 
-      image: 'd2dockerd2/juice-shop-wiz:latest'
+      image: 'd2dockerd2/juice-shop-wiz:testPush'
       policyHitsOnly: true
       succeedOnFailures: true
       scanTags: 'app=forkedOWASPjuiceshop'
