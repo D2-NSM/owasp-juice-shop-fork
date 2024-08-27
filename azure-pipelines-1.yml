@@ -1,8 +1,10 @@
 trigger:
 - docker-juice-shop 
 
-steps:
+pool:
+  vmImage: 'ubuntu-latest'
 
+steps:
 - script: docker pull d2dockerd2/juice-shop-wiz:latest
   displayName: Pull Docker Image
 - task: wiz@0
@@ -12,5 +14,6 @@ steps:
     clientid: $(WIZ_CLIENT_ID)
     secret: $(WIZ_CLIENT_SECRET) 
     image: 'd2dockerd2/juice-shop-wiz:latest'
-    policyHitsOnly: false
+    policyHitsOnly: true
     succeedOnFailures: true
+    scanTags: 'app=forkedOWASPjuiceshop'
