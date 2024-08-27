@@ -11,6 +11,6 @@ steps:
     command: 'image'
     clientid: $(WIZ_CLIENT_ID)
     secret: $(WIZ_CLIENT_SECRET) 
-    image: 'd2dockerd2/juice-shop-wiz:latest'
+    image: 'juice-shop-wiz:latest'
     policyHitsOnly: true
     succeedOnFailures: true
