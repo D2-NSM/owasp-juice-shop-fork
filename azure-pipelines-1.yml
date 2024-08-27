@@ -1,9 +1,6 @@
 trigger:
 - docker-juice-shop 
 
-pool:
-  vmImage: 'ubuntu-latest'
-
 steps:
 
 - script: docker pull d2dockerd2/juice-shop-wiz:latest
