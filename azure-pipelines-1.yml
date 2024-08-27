@@ -9,11 +9,11 @@ steps:
 - script: docker pull d2dockerd2/juice-shop-wiz:latest
   displayName: Pull Docker Image
 - task: wiz@0
+  displayName: Wiz CLI Scan
   inputs:
     command: 'image'
     clientid: $(WIZ_CLIENT_ID)
     secret: $(WIZ_CLIENT_SECRET) 
     image: 'd2dockerd2/juice-shop-wiz:latest'
     policyHitsOnly: true
-    scanTags: 'app=test'
     succeedOnFailures: true
