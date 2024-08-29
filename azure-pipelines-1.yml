@@ -22,7 +22,7 @@ steps:
       clientid: $(WIZ_CLIENT_ID)
       secret: $(WIZ_CLIENT_SECRET) 
       policyHitsOnly: true
-      succeedOnFailures: true
+      succeedOnFailures: false
       scanTags: 'app=DockerfileForkedOWASPjuiceshop'
       path: '.'
       name: 'Dockerfile'
@@ -41,6 +41,7 @@ steps:
   # - script: docker pull d2dockerd2/juice-shop-wiz:testPush
   #   displayName: Pull Docker Image
 
+  # TO-DO: Move Scan Task Before Push Task (IF scan = success, THEN push to registry)
   # - task: wiz@0
   #   displayName: Wiz CLI Scan
   #   inputs:
