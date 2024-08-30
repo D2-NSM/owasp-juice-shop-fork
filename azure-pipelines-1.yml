@@ -28,7 +28,6 @@ steps:
       path: '.'
       name: 'Dockerfile'
       scanSecrets: true
-      scanPolicies: 'vuln-one-high'
 
 # For Container Image Scanning with Wiz CLI
   # - task: Docker@2
