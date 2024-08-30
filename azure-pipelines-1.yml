@@ -23,6 +23,7 @@ steps:
       secret: $(WIZ_CLIENT_SECRET) 
       policyHitsOnly: true
       succeedOnFailures: false
+      debug: true
       scanTags: 'app=DockerfileForkedOWASPjuiceshop'
       path: '.'
       name: 'Dockerfile'
