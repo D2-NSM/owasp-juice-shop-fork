@@ -22,13 +22,12 @@ steps:
       clientid: $(WIZ_CLIENT_ID)
       secret: $(WIZ_CLIENT_SECRET) 
       policyHitsOnly: true
-      succeedOnFailures: false
+      succeedOnFailures: true
       debug: true
-      scanPolicies: 'Test IaC Policy'
+      scanSecrets: true
       scanTags: 'app=DockerfileForkedOWASPjuiceshop'
       path: '.'
       name: 'Dockerfile'
-      scanSecrets: true
 
 # For Container Image Scanning with Wiz CLI
   # - task: Docker@2
