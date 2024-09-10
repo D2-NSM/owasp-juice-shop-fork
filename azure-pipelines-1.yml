@@ -14,7 +14,7 @@ steps:
       tags: |
         testPush
 
-# For IaC scanning of files & folders -
+# For IaC scanning of files & folders (Dockerfiles, Terraform, etc.) -
   - task: wiz@0
     displayName: Wiz CLI Scan
     inputs:
@@ -24,6 +24,7 @@ steps:
       policyHitsOnly: true
       succeedOnFailures: false
       debug: true
+      scanPolicies: 'Test IaC Policy'
       scanTags: 'app=DockerfileForkedOWASPjuiceshop'
       path: '.'
       name: 'Dockerfile'
