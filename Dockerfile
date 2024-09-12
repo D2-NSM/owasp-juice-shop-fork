@@ -49,6 +49,8 @@ WORKDIR /juice-shop
 COPY --from=installer --chown=65532:0 /juice-shop .
 COPY --chown=65532:0 --from=libxmljs-builder /juice-shop/node_modules/libxmljs ./node_modules/libxmljs
 
+# Install shadow package which includes useradd
+RUN apk --no-cache add shadow
 # Create a non-root user
 RUN useradd -m d2user
 USER d2user
