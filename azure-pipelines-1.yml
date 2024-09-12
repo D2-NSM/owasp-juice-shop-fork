@@ -26,6 +26,7 @@ steps:
       debug: true
       scanSecrets: true
       scanTags: 'app=DockerfileForkedOWASPjuiceshop'
+      scanPolicies: 'Test IaC Policy'
       path: '.'
       name: 'Dockerfile'
 
