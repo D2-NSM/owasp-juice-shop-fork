@@ -52,6 +52,7 @@ COPY --chown=65532:0 --from=libxmljs-builder /juice-shop/node_modules/libxmljs .
 # Create a non-root user
 RUN useradd -m d2user
 USER d2user
+# Nobody user in many Linux distributions... special, unprivileged system account
 # USER 65532
 
 EXPOSE 3000
