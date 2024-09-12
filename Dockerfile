@@ -48,6 +48,11 @@ LABEL maintainer="Bjoern Kimminich <bjoern.kimminich@owasp.org>" \
 WORKDIR /juice-shop
 COPY --from=installer --chown=65532:0 /juice-shop .
 COPY --chown=65532:0 --from=libxmljs-builder /juice-shop/node_modules/libxmljs ./node_modules/libxmljs
-USER 65532
+
+# Create a non-root user
+RUN useradd -m d2user
+USER d2user
+# USER 65532
+
 EXPOSE 3000
 CMD ["/juice-shop/build/app.js"]
