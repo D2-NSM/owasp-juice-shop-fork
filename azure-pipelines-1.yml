@@ -1,0 +1,56 @@
+trigger:
+- docker-juice-shop 
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: Docker@2
+    displayName: Build a Docker Image
+    inputs:
+      command: build
+      Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+      repository: d2dockerd2/juice-shop-wiz
+      tags: |
+        testPush
+
+# For IaC scanning of files & folders (Dockerfiles, Terraform, etc.) -
+  - task: wiz@0
+    displayName: Wiz CLI Scan
+    inputs:
+      command: 'iac'
+      clientid: $(WIZ_CLIENT_ID)
+      secret: $(WIZ_CLIENT_SECRET) 
+      policyHitsOnly: true
+      succeedOnFailures: true
+      debug: true
+      scanSecrets: true
+      scanTags: 'app=DockerfileForkedOWASPjuiceshop'
+      scanPolicies: 'Test IaC Policy'
+      path: '.'
+      name: 'Dockerfile'
+
+# For Container Image Scanning with Wiz CLI
+  # - task: Docker@2
+  #   displayName: Push Docker Image to DockerHub
+  #   inputs:
+  #     containerRegistry: D2_DockerHub
+  #     command: push
+  #     repository: d2dockerd2/juice-shop-wiz
+  #     tags: |
+  #       testPush
+      
+  # - script: docker pull d2dockerd2/juice-shop-wiz:testPush
+  #   displayName: Pull Docker Image
+
+  # TO-DO: Move Scan Task Before Push Task (IF scan = success, THEN push to registry)
+  # - task: wiz@0
+  #   displayName: Wiz CLI Scan
+  #   inputs:
+  #     command: 'image'
+  #     clientid: $(WIZ_CLIENT_ID)
+  #     secret: $(WIZ_CLIENT_SECRET) 
+  #     image: 'd2dockerd2/juice-shop-wiz:testPush'
+  #     policyHitsOnly: true
+  #     succeedOnFailures: true
+  #     scanTags: 'app=forkedOWASPjuiceshop'
