@@ -24,9 +24,10 @@ steps:
       policyHitsOnly: true
       succeedOnFailures: true
       debug: true
-      scanSecrets: true
+      legacySecretScanner: true
       scanTags: 'app=DockerfileForkedOWASPjuiceshop'
       scanPolicies: 'Test IaC Policy'
+      scanSecrets: true
       path: '.'
       name: 'Dockerfile'
 
@@ -54,3 +55,4 @@ steps:
   #     policyHitsOnly: true
   #     succeedOnFailures: true
   #     scanTags: 'app=forkedOWASPjuiceshop'
+  
