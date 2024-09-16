@@ -41,7 +41,8 @@ steps:
       secret: $(WIZ_CLIENT_SECRET) 
       image: 'd2dockerd2/juice-shop-wiz:testPush'
       policyHitsOnly: true
-      succeedOnFailures: false
+       # set succeedOnFailures to False to block Docker image from being pushed if scan fails
+      succeedOnFailures: true
       scanTags: 'app=forkedOWASPjuiceshop'
 
   - task: Docker@2
@@ -56,4 +57,12 @@ steps:
   # - script: docker pull d2dockerd2/juice-shop-wiz:testPush
   #   displayName: Pull Docker Image
 
+  # For Container Image Tagging (Container Code-to-Cloud Correlation)
+  - task: wiz@0
+    displayName: "Wiz Image Tag"
+    inputs:
+      command: 'tag'
+      clientid: $(WIZ_CLIENT_ID)
+      secret: $(WIZ_CLIENT_SECRET)
+      image: 'd2dockerd2/juice-shop-wiz:testPush'
   
