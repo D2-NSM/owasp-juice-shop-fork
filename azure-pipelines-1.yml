@@ -64,6 +64,7 @@ steps:
       command: 'tag'
       clientid: $(WIZ_CLIENT_ID)
       secret: $(WIZ_CLIENT_SECRET)
+      Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
       image: 'd2dockerd2/juice-shop-wiz:testPush'
       # Needs to be same image listed in CLI Scan task above
   
