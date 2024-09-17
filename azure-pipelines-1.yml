@@ -66,5 +66,5 @@ steps:
       secret: $(WIZ_CLIENT_SECRET)
       Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
       image: 'd2dockerd2/juice-shop-wiz:testPush'
-      # Needs to be same image listed in CLI Scan task above
+      # Needs to be same image listed in CLI Scan task above 
   
