@@ -50,7 +50,7 @@ steps:
     inputs:
       containerRegistry: AcrServiceConnection
       command: push
-      repository: d2acr.azurecr.io/juice-shop-wiz
+      repository: juice-shop-wiz
       tags: |
         testPushAcr
       
@@ -65,6 +65,6 @@ steps:
       clientid: $(WIZ_CLIENT_ID)
       secret: $(WIZ_CLIENT_SECRET)
       Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
-      image: 'd2dockerd2/juice-shop-wiz:testPushAcr'
+      image: 'd2acr.azurecr.io/juice-shop-wiz:testPushAcr'
       # Needs to be same image listed in CLI Scan task above 
   
