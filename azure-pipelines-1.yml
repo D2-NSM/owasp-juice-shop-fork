@@ -10,9 +10,9 @@ steps:
     inputs:
       command: build
       Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
-      repository: d2dockerd2/juice-shop-wiz
+      repository: d2acr.azurecr.io/juice-shop-wiz
       tags: |
-        testPush
+        testPushAcr
 
 # For IaC scanning of files & folders (Dockerfiles, Terraform, etc.) -
   # - task: wiz@0
@@ -39,7 +39,7 @@ steps:
       command: 'image'
       clientid: $(WIZ_CLIENT_ID)
       secret: $(WIZ_CLIENT_SECRET) 
-      image: 'd2dockerd2/juice-shop-wiz:testPush'
+      image: 'd2acr.azurecr.io/juice-shop-wiz:testPushAcr'
       policyHitsOnly: true
        # set succeedOnFailures to False to block Docker image from being pushed if scan fails
       succeedOnFailures: true
@@ -48,11 +48,11 @@ steps:
   - task: Docker@2
     displayName: Push Docker Image to DockerHub
     inputs:
-      containerRegistry: D2_DockerHub
+      containerRegistry: AcrServiceConnection
       command: push
-      repository: d2dockerd2/juice-shop-wiz
+      repository: d2acr.azurecr.io/juice-shop-wiz
       tags: |
-        testPush
+        testPushAcr
       
   # - script: docker pull d2dockerd2/juice-shop-wiz:testPush
   #   displayName: Pull Docker Image
@@ -65,6 +65,6 @@ steps:
       clientid: $(WIZ_CLIENT_ID)
       secret: $(WIZ_CLIENT_SECRET)
       Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
-      image: 'd2dockerd2/juice-shop-wiz:testPush'
+      image: 'd2dockerd2/juice-shop-wiz:testPushAcr'
       # Needs to be same image listed in CLI Scan task above 
   
