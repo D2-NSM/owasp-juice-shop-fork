@@ -3,7 +3,7 @@
   "summary": {
     "title": "Juice Shop Threat Model Test",
     "owner": "Dom",
-    "description": "Fork of OWASP's Juice Shop website which is an intentionally vulnerable website where users can purchase various juices and other products. ",
+    "description": "OWASP's Juice Shop (forked) website which is an intentionally vulnerable website where users can purchase various juices and other products. ",
     "id": 0
   },
   "detail": {
@@ -11,7 +11,7 @@
     "diagrams": [
       {
         "id": 0,
-        "title": "New STRIDE diagram",
+        "title": "STRIDE App Diagram",
         "diagramType": "STRIDE",
         "placeholder": "New STRIDE diagram description",
         "thumbnail": "./public/content/images/thumbnail.stride.jpg",
@@ -20,7 +20,7 @@
       }
     ],
     "diagramTop": 1,
-    "reviewer": "",
+    "reviewer": "Jane Doe",
     "threatTop": 0
   }
 }
