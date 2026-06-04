@@ -1,5 +1,4 @@
 trigger:
-  - main
   - ist-azure-pipelines
 
 pool:
