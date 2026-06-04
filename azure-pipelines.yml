@@ -1,33 +1,45 @@
 trigger:
-- master
+  - main
+  - ist-azure-pipelines
 
 pool:
   vmImage: 'ubuntu-latest'
 
-# Node.js with Angular
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '18.x'
-  displayName: 'Install Node.js'
+  - task: Docker@2
+    displayName: Build Docker Image
+    inputs:
+      command: build
+      Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+      repository: <YOUR_DOCKERHUB_USER>/juice-shop-wiz
+      tags: |
+        latest
 
-# Build a Node.js project that uses Angular.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-- script: |
-    npm install -g typescript
-    npm install -g @angular/cli
-    cd frontend
-    npm install --legacy-peer-deps
-    npm install @types/lodash@latest --legacy-peer-deps
-    
-- task: rapid7-insightappsec@1
-  inputs:
-    apiConnection: 'R7 AppSec'
-    application: '09065ffd-a826-4cd5-94d6-7ec72b5e5c21'
-    scanConfig: 'e626387e-3a0f-4a80-bae8-616b5703aeae'
-    generateFindingsReport: true
-    hasTimeout: true
-    timeout: '45'
-    publishPipelineArtifacts: true
-    artifactPerReport: true
+  - task: wiz@1
+    displayName: Wiz CLI - Container Image Scan
+    inputs:
+      serviceConnectionId: '<YOUR_SERVICE_CONNECTION_NAME>'
+      command: 'scan'
+      scanType: 'containerimage'
+      image: '<YOUR_DOCKERHUB_USER>/juice-shop-wiz:latest'
+      driver: 'mount'
+      sudo: true
+      succeedOnFailures: true
+
+  - task: Docker@2
+    displayName: Push to Docker Hub
+    inputs:
+      containerRegistry: '<YOUR_DOCKERHUB_SERVICE_CONNECTION>'
+      command: push
+      repository: <YOUR_DOCKERHUB_USER>/juice-shop-wiz
+      tags: |
+        latest
+
+  - task: wiz@1
+    displayName: Wiz CLI - Image Tag
+    inputs:
+      serviceConnectionId: '<YOUR_SERVICE_CONNECTION_NAME>'
+      command: 'tag'
+      image: '<YOUR_DOCKERHUB_USER>/juice-shop-wiz:latest'
+      driver: 'mount'
+      sudo: true
