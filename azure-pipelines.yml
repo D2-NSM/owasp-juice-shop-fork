@@ -5,14 +5,19 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-  - task: Docker@2
-    displayName: Build Docker Image
+  # - task: Docker@2
+  #   displayName: Build Docker Image
+  #   inputs:
+  #     command: build
+  #     Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+  #     repository: d2dockerd2/juice-shop-wiz
+  #     tags: |
+  #       testPush
+
+  - task: CmdLine@2
+    displayName: Pull Docker Image
     inputs:
-      command: build
-      Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
-      repository: d2dockerd2/juice-shop-wiz
-      tags: |
-        testPush
+      script: docker pull d2dockerd2/juice-shop-wiz:testPush
 
   - task: wiz@1
     displayName: Wiz CLI - Container Image Scan
@@ -25,14 +30,14 @@ steps:
       sudo: true
       succeedOnFailures: true
 
-  - task: Docker@2
-    displayName: Push to Docker Hub
-    inputs:
-      containerRegistry: 'bb36d7a2-41db-4972-a5e7-05c91adc0732'
-      command: push
-      repository: juice-shop-wiz
-      tags: |
-        testPush
+  # - task: Docker@2
+  #   displayName: Push to Docker Hub
+  #   inputs:
+  #     containerRegistry: 'bb36d7a2-41db-4972-a5e7-05c91adc0732'
+  #     command: push
+  #     repository: juice-shop-wiz
+  #     tags: |
+  #       testPush
 
   # - task: wiz@1
   #   displayName: Wiz CLI - Image Tag
