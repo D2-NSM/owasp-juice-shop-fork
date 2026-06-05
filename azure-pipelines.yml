@@ -5,7 +5,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-  # BUILD Step: disabled for this POC, using pre-built image from DockerHub
+  # BUILD Step: disabled for this POC, using pre-built image from my DockerHub
 
   # - task: Docker@2
   #   displayName: Build Docker Image
@@ -22,12 +22,9 @@ steps:
       script: docker pull d2dockerd2/juice-shop-wiz:testPush
 
   # SCAN Step: Container Image
-    # Wiz scans the image for vulnerabilities, secrets, malware, sensitive data, and EOL
+    # Wiz scans the image for vulnerabilities, secrets, malware, sensitive data, etc.
     # Best practice to scan before Push Task (IF scan = success, THEN push to registry)
-      # 'succeedOnFailures' should control scan gating (but has known inconsistencies)
-        #   true  = scan reports findings but pipeline build continues (dev/POC)
-        #   false = pipeline fails if Wiz CI/CD policies are violated (staging/prod)
-      # Use the 'policies' field to target specific Wiz CI/CD policies
+      # Use the 'policies' field to target specific Wiz CI/CD policies. Policies control scan gating
         # 'byPolicyHits' controls what Wiz findings are shown at end of pipeline builds in ADO UI
           # Options: 'DISABLED' = shows all findings (good for non-prod envs), 'BLOCK' = shows findings that hit a Block Wiz policy (good for Prod pipelines)
 
@@ -40,8 +37,7 @@ steps:
       image: 'd2dockerd2/juice-shop-wiz:testPush'
       driver: 'mount'
       sudo: true
-      succeedOnFailures: true
-      policies: 'Dev-Vulns-AuditOnly-Test, Default sensitive data policy, Default secrets policy, Default malware policy'
+      policies: 'IST-Dev-Vulns-AuditOnly-Test, Default sensitive data policy, Default secrets policy, Default malware policy'
       byPolicyHits: DISABLED
 
   # SCAN Step: IaC + Directory (uncomment to scan repo files)
@@ -54,8 +50,6 @@ steps:
   #     command: 'scan'
   #     scanType: 'dir'
   #     path: '.'
-  #     succeedOnFailures: true
-  #     # policies: 'vuln-one-medium' (targets a specific Wiz CI/CD policy instead of the defaults)
 
   # PUSH Step: (Disabled for POC, could push to ACR, DockerHub, etc.)
 
