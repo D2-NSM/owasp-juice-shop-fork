@@ -24,15 +24,16 @@ steps:
   # SCAN Step: Container Image
     # Wiz scans the image for vulnerabilities, secrets, malware, sensitive data, and EOL
     # Best practice to scan before Push Task (IF scan = success, THEN push to registry)
-      # 'succeedOnFailures' controls scan gating:
+      # 'succeedOnFailures' should control scan gating (but has known inconsistencies)
         #   true  = scan reports findings but pipeline build continues (dev/POC)
         #   false = pipeline fails if Wiz CI/CD policies are violated (staging/prod)
+          # 'continueOnError' is the ADO-native fallback option (remove for staging/prod where scan gating is enforced)
       # Use the 'policies' field to target specific Wiz CI/CD policies
   - task: wiz@1
     displayName: Wiz CLI - Container Image Scan
     continueOnError: true
     inputs:
-      serviceConnectionId: '70713e22-89e8-43df-85dc-411e1a172d5a'
+      serviceConnectionId: '70713e22-89e8-43df-85dc-411e1a172d5a' # Auth is handled by the Wiz service connection (Project Settings > Service Connections)
       command: 'scan'
       scanType: 'containerimage'
       image: 'd2dockerd2/juice-shop-wiz:testPush'
