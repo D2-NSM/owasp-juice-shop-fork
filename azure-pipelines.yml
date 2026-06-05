@@ -19,6 +19,7 @@ steps:
     inputs:
       script: docker pull d2dockerd2/juice-shop-wiz:testPush
 
+# Scan Task Before Push Task (IF scan = success, THEN push to registry)
   - task: wiz@1
     displayName: Wiz CLI - Container Image Scan
     inputs:
@@ -27,8 +28,10 @@ steps:
       scanType: 'containerimage'
       image: 'd2dockerd2/juice-shop-wiz:testPush'
       driver: 'mount'
-      sudo: true
       succeedOnFailures: true
+        # true = pipeline still succeeds when Wiz CI/CD policies / scan fail
+        # false = pipeline gates on scan / policy results
+      sudo: true
 
   # - task: Docker@2
   #   displayName: Push to Docker Hub
@@ -39,11 +42,12 @@ steps:
   #     tags: |
   #       testPush
 
-  # - task: wiz@1
-  #   displayName: Wiz CLI - Image Tag
-  #   inputs:
-  #     serviceConnectionId: '<YOUR_SERVICE_CONNECTION_NAME>'
-  #     command: 'tag'
-  #     image: '<YOUR_DOCKERHUB_USER>/juice-shop-wiz:latest'
-  #     driver: 'mount'
-  #     sudo: true
+# Wiz tags image with CI/CD metadata to better trace containers to source code (Code-to-Cloud Correlation)
+  - task: wiz@1
+    displayName: Wiz CLI - Image Tag
+    inputs:
+      serviceConnectionId: '70713e22-89e8-43df-85dc-411e1a172d5a'
+      command: 'tag'
+      image: 'd2dockerd2/juice-shop-wiz:testPush'
+      driver: 'mount'
+      sudo: true
