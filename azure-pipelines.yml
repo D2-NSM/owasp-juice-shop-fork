@@ -20,18 +20,28 @@ steps:
       script: docker pull d2dockerd2/juice-shop-wiz:testPush
 
 # Scan Task Before Push Task (IF scan = success, THEN push to registry)
+  # - task: wiz@1
+  #   displayName: Wiz CLI - Container Image Scan
+  #   inputs:
+  #     serviceConnectionId: '70713e22-89e8-43df-85dc-411e1a172d5a'
+  #     command: 'scan'
+  #     scanType: 'containerimage'
+  #     image: 'd2dockerd2/juice-shop-wiz:testPush'
+  #     driver: 'mount'
+  #     succeedOnFailures: true
+  #       # true = pipeline still succeeds when Wiz CI/CD policies / scan fail
+  #       # false = pipeline gates on scan / policy results
+  #     sudo: true
+
   - task: wiz@1
-    displayName: Wiz CLI - Container Image Scan
+    displayName: Wiz CLI - IaC + Directories Scan
     inputs:
       serviceConnectionId: '70713e22-89e8-43df-85dc-411e1a172d5a'
       command: 'scan'
-      scanType: 'containerimage'
-      image: 'd2dockerd2/juice-shop-wiz:testPush'
-      driver: 'mount'
-      succeedOnFailures: false
-        # true = pipeline still succeeds when Wiz CI/CD policies / scan fail
-        # false = pipeline gates on scan / policy results
-      sudo: true
+      scanType: 'dir'
+      path: '.'
+      succeedOnFailures: true
+      # policies: 'vuln-one-medium' # targets a specific Wiz CI/CD policy instead of the defaults
 
   # - task: Docker@2
   #   displayName: Push to Docker Hub
