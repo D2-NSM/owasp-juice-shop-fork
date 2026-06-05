@@ -5,6 +5,8 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+  # BUILD Step: disabled for this POC, using pre-built image from DockerHub
+
   # - task: Docker@2
   #   displayName: Build Docker Image
   #   inputs:
@@ -19,40 +21,50 @@ steps:
     inputs:
       script: docker pull d2dockerd2/juice-shop-wiz:testPush
 
-# Scan Task Before Push Task (IF scan = success, THEN push to registry)
-  # - task: wiz@1
-  #   displayName: Wiz CLI - Container Image Scan
-  #   inputs:
-  #     serviceConnectionId: '70713e22-89e8-43df-85dc-411e1a172d5a'
-  #     command: 'scan'
-  #     scanType: 'containerimage'
-  #     image: 'd2dockerd2/juice-shop-wiz:testPush'
-  #     driver: 'mount'
-  #     succeedOnFailures: true
-  #       # true = pipeline still succeeds when Wiz CI/CD policies / scan fail
-  #       # false = pipeline gates on scan / policy results
-  #     sudo: true
-
+  # SCAN Step: Container Image
+    # Wiz scans the image for vulnerabilities, secrets, malware, sensitive data, and EOL
+    # Best practice to scan before Push Task (IF scan = success, THEN push to registry)
+      # 'succeedOnFailures' controls scan gating:
+        #   true  = scan reports findings but pipeline build continues (dev/POC)
+        #   false = pipeline fails if Wiz CI/CD policies are violated (staging/prod)
+      # Use the 'policies' field to target specific Wiz CI/CD policies
   - task: wiz@1
-    displayName: Wiz CLI - IaC + Directories Scan
+    displayName: Wiz CLI - Container Image Scan
     inputs:
       serviceConnectionId: '70713e22-89e8-43df-85dc-411e1a172d5a'
       command: 'scan'
-      scanType: 'dir'
-      path: '.'
+      scanType: 'containerimage'
+      image: 'd2dockerd2/juice-shop-wiz:testPush'
+      driver: 'mount'
+      sudo: true
       succeedOnFailures: true
-      # policies: 'vuln-one-medium' # targets a specific Wiz CI/CD policy instead of the defaults
+
+  # SCAN Step: IaC + Directory (uncomment to scan repo files)
+    # Wiz scans Dockerfiles, Terraform, etc. for misconfigs and secrets
+
+  # - task: wiz@1
+  #   displayName: Wiz CLI - IaC + Directories Scan
+  #   inputs:
+  #     serviceConnectionId: '70713e22-89e8-43df-85dc-411e1a172d5a'
+  #     command: 'scan'
+  #     scanType: 'dir'
+  #     path: '.'
+  #     succeedOnFailures: true
+  #     # policies: 'vuln-one-medium' (targets a specific Wiz CI/CD policy instead of the defaults)
+
+  # PUSH Step: (Disabled for POC, could push to ACR, DockerHub, etc.)
 
   # - task: Docker@2
-  #   displayName: Push to Docker Hub
+  #   displayName: Push to Container Registry
   #   inputs:
-  #     containerRegistry: 'bb36d7a2-41db-4972-a5e7-05c91adc0732'
+  #     containerRegistry: 'AcrServiceConnection'
   #     command: push
   #     repository: juice-shop-wiz
   #     tags: |
   #       testPush
 
-# Wiz tags image with CI/CD metadata to better trace containers to source code (Code-to-Cloud Correlation)
+  # TAG Step:(Code-to-Cloud Correlation)
+    # Wiz tags image with CI/CD metadata (git commit, repo, pipeline) to better trace containers to source code 
   - task: wiz@1
     displayName: Wiz CLI - Image Tag
     inputs:
