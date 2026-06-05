@@ -27,11 +27,12 @@ steps:
       # 'succeedOnFailures' should control scan gating (but has known inconsistencies)
         #   true  = scan reports findings but pipeline build continues (dev/POC)
         #   false = pipeline fails if Wiz CI/CD policies are violated (staging/prod)
-          # 'continueOnError' is the ADO-native fallback option (remove for staging/prod where scan gating is enforced)
       # Use the 'policies' field to target specific Wiz CI/CD policies
+        # 'byPolicyHits' controls what Wiz findings are shown at end of pipeline builds in ADO UI
+          # Options: 'DISABLED' = shows all findings (good for non-prod envs), 'BLOCK' = shows findings that hit a Block Wiz policy (good for Prod pipelines)
+
   - task: wiz@1
     displayName: Wiz CLI - Container Image Scan
-    # continueOnError: true
     inputs:
       serviceConnectionId: '70713e22-89e8-43df-85dc-411e1a172d5a' # Auth is handled by the Wiz service connection (Project Settings > Service Connections)
       command: 'scan'
@@ -40,7 +41,7 @@ steps:
       driver: 'mount'
       sudo: true
       succeedOnFailures: true
-      policies: 'Dev-Vulns-AuditOnly-Test'
+      policies: 'Dev-Vulns-AuditOnly-Test, Default sensitive data policy, Default secrets policy, Default malware policy'
       byPolicyHits: DISABLED
 
   # SCAN Step: IaC + Directory (uncomment to scan repo files)
@@ -68,7 +69,8 @@ steps:
   #       testPush
 
   # TAG Step:(Code-to-Cloud Correlation)
-    # Wiz tags image with CI/CD metadata (git commit, repo, pipeline) to better trace containers to source code 
+    # Wiz tags image with CI/CD metadata (git commit, repo, pipeline) to better trace containers to source code
+
   - task: wiz@1
     displayName: Wiz CLI - Image Tag
     inputs:
