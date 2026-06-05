@@ -28,7 +28,7 @@ steps:
       scanType: 'containerimage'
       image: 'd2dockerd2/juice-shop-wiz:testPush'
       driver: 'mount'
-      succeedOnFailures: true
+      succeedOnFailures: false
         # true = pipeline still succeeds when Wiz CI/CD policies / scan fail
         # false = pipeline gates on scan / policy results
       sudo: true
