@@ -41,6 +41,7 @@ steps:
       sudo: true
       succeedOnFailures: true
       policies: 'Dev-Vulns-AuditOnly-Test'
+      byPolicyHits: DISABLED
 
   # SCAN Step: IaC + Directory (uncomment to scan repo files)
     # Wiz scans Dockerfiles, Terraform, etc. for misconfigs and secrets
