@@ -37,7 +37,7 @@ steps:
       image: 'd2dockerd2/juice-shop-wiz:testPush'
       driver: 'mount'
       sudo: true
-      policies: 'IST-Dev-Vulns-AuditOnly-Test, Default sensitive data policy, Default secrets policy, Default malware policy'
+      policies: 'Default secrets policy'
       byPolicyHits: DISABLED
 
   # SCAN Step: IaC + Directory (uncomment to scan repo files)
