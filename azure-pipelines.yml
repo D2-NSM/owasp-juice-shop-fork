@@ -37,7 +37,7 @@ steps:
       image: 'd2dockerd2/juice-shop-wiz:testPush'
       driver: 'mount'
       sudo: true
-      # policies: 'Default secrets policy, Default malware policy, Default sensitive data policy, '
+      policies: 'Default secrets policy, Default malware policy, Default sensitive data policy, Dev-Vulns-Audit-All' # Dev env policy examples (all non-blocking)
       byPolicyHits: DISABLED
 
   # SCAN Step: IaC + Directory (uncomment to scan repo files)
