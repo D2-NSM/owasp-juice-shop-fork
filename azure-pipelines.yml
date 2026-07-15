@@ -29,6 +29,7 @@ steps:
           # Options: 'DISABLED' = shows all findings (good for non-prod envs), 'BLOCK' = shows findings that hit a Block Wiz policy (good for Prod pipelines)
 
   - task: wiz@1
+    continueOnError: true
     displayName: Wiz CLI - Container Image Scan
     inputs:
       serviceConnectionId: '70713e22-89e8-43df-85dc-411e1a172d5a' # Auth is handled by the Wiz service connection (Project Settings > Service Connections)
@@ -39,7 +40,6 @@ steps:
       sudo: true
       policies: 'Staging-Secrets-Block-Critical, Staging-Malware-Block-Critical, Staging-Vulns-Block-Critical, Default sensitive data policy' # Staging env policy examples (all non-blocking)
       byPolicyHits: DISABLED
-      succeedOnFailures: true
 
   # SCAN Step: IaC + Directory (uncomment to scan repo files)
     # Wiz scans Dockerfiles, Terraform, etc. for misconfigs and secrets
