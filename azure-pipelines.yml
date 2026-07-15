@@ -51,6 +51,7 @@ steps:
       command: 'scan'
       scanType: 'dir'
       path: '.'
+      policies: 'Prod-Vulns-Block-High+, Prod-Secrets-Block-High+, Prod-Malware-Block-High+, Default sensitive data policy, Default SAST policy (Wiz CI/CD scan), Default IaC policy'
 
   # PUSH Step: (Disabled for POC, could push to ACR, DockerHub, etc.)
 
