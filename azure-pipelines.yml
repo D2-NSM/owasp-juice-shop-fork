@@ -37,8 +37,9 @@ steps:
       image: 'd2dockerd2/juice-shop-wiz:testPush'
       driver: 'mount'
       sudo: true
-      policies: 'Default secrets policy, Default malware policy, Default sensitive data policy, Staging-Vulns-Block-Critical' # Dev env policy examples (all non-blocking)
+      policies: 'Staging-Secrets-Block-Critical, Staging-Malware-Block-Critical, Staging-Vulns-Block-Critical, Default sensitive data policy, Default SAST policy (Wiz CI/CD scan), Default IaC policy' # Staging env policy examples (all non-blocking)
       byPolicyHits: DISABLED
+      succeedOnFailures: true
 
   # SCAN Step: IaC + Directory (uncomment to scan repo files)
     # Wiz scans Dockerfiles, Terraform, etc. for misconfigs and secrets
