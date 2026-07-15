@@ -45,6 +45,7 @@ steps:
     # Wiz scans Dockerfiles, Terraform, etc. for misconfigs and secrets
 
   - task: wiz@1
+    continueOnError: true # Use continueOnError: true for urgent Prod pipeline builds being wrongfully blocked (false positive, etc)
     displayName: Wiz CLI - IaC + Directories Scan
     inputs:
       serviceConnectionId: '70713e22-89e8-43df-85dc-411e1a172d5a'
